@@ -7,71 +7,61 @@
 body{
     margin:0;
     overflow:hidden;
-    font-family:Arial, sans-serif;
+    background:linear-gradient(to right, #ff9a9e, #fad0c4);
     height:100vh;
-}
-
-/* Slides Base */
-.slide{
-    position:absolute;
-    width:100%;
-    height:100vh;
-    top:0;
-    left:0;
     display:flex;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
+    flex-direction:column;
+    font-family:Arial, sans-serif;
+    transition:background 2s ease;
     text-align:center;
-    transition:opacity 1s ease;
+    color:white;
 }
 
-/* Slide 1 */
-#slide1{
-    background:linear-gradient(to right,#ff9a9e,#fad0c4);
-}
-
-/* Slide 2 */
-#slide2{
-    background:linear-gradient(135deg,#ff9ccf,#ff4da6,#ff85c1);
-    opacity:0;
-    pointer-events:none;
-    font-family:'Courier New', monospace;
-}
-
-/* Slide 3 */
-#slide3{
-    background:linear-gradient(135deg,#ffe29f,#ffa99f);
-    opacity:0;
-    pointer-events:none;
+/* Intro Text */
+#introText{
+    font-size:28px;
+    margin-bottom:30px;
+    animation:fadeIn 2s ease forwards;
 }
 
 /* Buttons */
-button{
-    padding:15px 35px;
-    font-size:20px;
+#startBtn, #nextBtn{
+    padding:15px 40px;
+    font-size:22px;
     border:none;
     border-radius:30px;
     background:#ff4d6d;
     color:white;
     cursor:pointer;
-    margin-top:20px;
     transition:0.3s;
+    display:none;
+    margin-top:20px;
 }
 
-button:hover{
+#startBtn:hover, #nextBtn:hover{
     background:#ff1e4d;
     transform:scale(1.1);
 }
 
+/* Image Section */
+#imageSection{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin-top:20px;
+}
+
 /* Image */
 #photo{
-    width:350px;
+    width:380px;
     border-radius:20px;
-    box-shadow:0 0 40px rgba(255,255,255,0.8);
+    box-shadow:0 0 50px rgba(255,255,255,0.8);
     opacity:0;
     transform:scale(0.5);
-    transition:1.5s ease;
+    transition:all 1.5s ease;
 }
 
 .showImage{
@@ -79,148 +69,275 @@ button:hover{
     transform:scale(1) !important;
 }
 
-/* Typing */
-#text{
-    width:80%;
-    max-width:800px;
+/* Balloon */
+.balloon{
+    position:absolute;
+    bottom:-200px;
+    width:90px;
+    height:110px;
+    border-radius:50%;
+    animation:floatUp 6s linear forwards;
+    box-shadow:0 0 20px rgba(255,255,255,0.6);
+}
+
+.string{
+    position:absolute;
+    width:2px;
+    height:80px;
+    background:#555;
+    bottom:-80px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.letter{
+    position:absolute;
+    bottom:-120px;
+    left:50%;
+    transform:translateX(-50%);
     font-size:22px;
+    font-weight:bold;
+    color:white;
+}
+
+@keyframes floatUp{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-130vh);}
+}
+
+/* Fade */
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+/* Fireworks Canvas */
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+/* -------- SLIDE 2 -------- */
+
+#slide2{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    background:linear-gradient(135deg,#ff9ccf,#ff4da6,#ff85c1);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 1.5s ease;
+    font-family:'Courier New', monospace;
+}
+
+.container{
+    text-align:center;
+    width:85%;
+    max-width:800px;
+    color:white;
+}
+
+#text{
+    font-size:24px;
     line-height:1.7;
     white-space:pre-line;
-    color:white;
+    text-shadow:0 0 5px #ffb6d9;
 }
 
 .cursor{
     display:inline-block;
     width:3px;
     background:white;
+    margin-left:5px;
     animation:blink 0.8s infinite;
 }
 
 @keyframes blink{
+    0%{opacity:1;}
     50%{opacity:0;}
+    100%{opacity:1;}
 }
 
-/* Slap */
-#girl{
-    font-size:120px;
-    margin-bottom:30px;
-}
-
-#hand{
-    font-size:80px;
+/* Floating hearts */
+.heart{
     position:absolute;
-    left:-150px;
-    transition:0.2s;
+    bottom:-20px;
+    font-size:20px;
+    animation:float 6s linear infinite;
+    opacity:0.7;
 }
 
-.slapMove{
-    transform:translateX(250px) rotate(-25deg);
-}
-
-#slapCounter{
-    font-size:28px;
-    margin-top:120px;
-    font-weight:bold;
+@keyframes float{
+    0%{transform:translateY(0) scale(1);}
+    100%{transform:translateY(-110vh) scale(1.5);}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SLIDE 1 -->
-<div id="slide1" class="slide">
-    <h2>🎁 Something special for you 💕</h2>
-    <button id="startBtn">Are You Ready? 💖</button>
+<div id="introText">🎁 Something special for you from your friends 💕</div>
+
+<button id="startBtn">Are You Ready? 💖</button>
+
+<div id="imageSection">
     <img id="photo" src="tulasi.jpg">
-    <button id="toLetter" style="display:none;">Next 💌</button>
+    <button id="nextBtn">Next 💌</button>
 </div>
 
-<!-- SLIDE 2 -->
-<div id="slide2" class="slide">
-    <div id="text"></div><span class="cursor"></span>
-    <button id="toSlap" style="display:none;">One More Surprise 😈</button>
-</div>
+<canvas id="fireworks"></canvas>
 
-<!-- SLIDE 3 -->
-<div id="slide3" class="slide">
-    <div id="girl">👧</div>
-    <div id="hand">🖐</div>
-    <div id="slapCounter"></div>
+<!-- Slide 2 -->
+<div id="slide2">
+    <div class="container">
+        <div id="text"></div><span class="cursor"></span>
+    </div>
 </div>
 
 <script>
 
-/* START BUTTON */
-document.getElementById("startBtn").onclick=function(){
+let text = "HAPPY BIRTHDAY";
+let colors = ["#ff4d6d","#ff85a2","#ff99c8","#ff5d8f","#ff7096"];
+
+setTimeout(()=>{
+    document.getElementById("startBtn").style.display="inline-block";
+},2000);
+
+document.getElementById("startBtn").onclick = function(){
+    document.getElementById("introText").style.display="none";
     this.style.display="none";
-    document.getElementById("photo").classList.add("showImage");
+
+    for(let i=0;i<text.length;i++){
+        setTimeout(()=>{
+            createBalloon(text[i], 5 + i*6);
+        }, i*300);
+    }
 
     setTimeout(()=>{
-        document.getElementById("toLetter").style.display="inline-block";
-    },1500);
+        document.body.style.background =
+        "linear-gradient(to right, #667eea, #764ba2)";
+        showImage();
+        startFireworks();
+        document.getElementById("nextBtn").style.display="inline-block";
+    }, 5000);
 };
 
-/* GO TO LETTER */
-document.getElementById("toLetter").onclick=function(){
-    document.getElementById("slide1").style.opacity="0";
-    document.getElementById("slide1").style.pointerEvents="none";
-
+document.getElementById("nextBtn").onclick = function(){
     document.getElementById("slide2").style.opacity="1";
     document.getElementById("slide2").style.pointerEvents="auto";
-
     typeWriter();
 };
+
+function createBalloon(letter, position){
+    let balloon = document.createElement("div");
+    balloon.className="balloon";
+    balloon.style.left=position+"vw";
+    balloon.style.background=colors[Math.floor(Math.random()*colors.length)];
+
+    let string = document.createElement("div");
+    string.className="string";
+
+    let letterDiv = document.createElement("div");
+    letterDiv.className="letter";
+    letterDiv.innerHTML=letter;
+
+    balloon.appendChild(string);
+    balloon.appendChild(letterDiv);
+    document.body.appendChild(balloon);
+}
+
+function showImage(){
+    document.getElementById("photo").classList.add("showImage");
+}
+
+/* Fireworks */
+function startFireworks(){
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function createFirework(){
+        let x = Math.random()*canvas.width;
+        let y = Math.random()*canvas.height/2;
+        for(let i=0;i<80;i++){
+            particles.push({
+                x:x,
+                y:y,
+                radius:2,
+                color:"hsl("+Math.random()*360+",100%,60%)",
+                speedX:(Math.random()-0.5)*6,
+                speedY:(Math.random()-0.5)*6,
+                life:100
+            });
+        }
+    }
+
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        particles.forEach((p,index)=>{
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+            ctx.fillStyle=p.color;
+            ctx.fill();
+            p.x+=p.speedX;
+            p.y+=p.speedY;
+            p.life--;
+            if(p.life<=0) particles.splice(index,1);
+        });
+        requestAnimationFrame(animate);
+    }
+
+    setInterval(createFirework,800);
+    animate();
+}
 
 /* Typing Message */
 const message = `Happiest birthday babe. 💖
 The moment we came into your life, your life became brighter… and you are blessed to have us. 😌
-I hope our friendship lasts like this forever.
-But no matter where we are, our friendship stays same.
-I love youuu.
-— From your roomies 💕`;
+I hope our friendship lasts like this forever. Maybe next year we won’t be there to celebrate your birthday because we might move to different places for our future.
+But no matter where we are, I hope our friendship always remains the same.
+And don’t you dare forget us!
+No matter where life takes us, we will always support you.
 
-let index=0;
+I love youuu.
+— From your roomies, no homies 💕`;
+
+let index = 0;
+let speed = 35;
 
 function typeWriter(){
     if(index < message.length){
         document.getElementById("text").innerHTML += message.charAt(index);
         index++;
-        setTimeout(typeWriter,35);
-    } else {
-        document.getElementById("toSlap").style.display="inline-block";
+        setTimeout(typeWriter, speed);
     }
 }
 
-/* GO TO SLAP SLIDE */
-document.getElementById("toSlap").onclick=function(){
-    document.getElementById("slide2").style.opacity="0";
-    document.getElementById("slide2").style.pointerEvents="none";
-
-    document.getElementById("slide3").style.opacity="1";
-    document.getElementById("slide3").style.pointerEvents="auto";
-
-    startSlaps();
-};
-
-/* 21 SLAPS */
-function startSlaps(){
-    let count=0;
-    const hand=document.getElementById("hand");
-    const counter=document.getElementById("slapCounter");
-
-    let slapInterval=setInterval(()=>{
-        if(count<21){
-            count++;
-            hand.classList.add("slapMove");
-            setTimeout(()=>hand.classList.remove("slapMove"),200);
-            counter.innerHTML="Birthday Slap "+count+" 🎂";
-        }else{
-            clearInterval(slapInterval);
-            counter.innerHTML="🎉 21 YEARS OLD BABYYYY 🎉";
-        }
-    },400);
+/* Floating hearts */
+function createHeart(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (15 + Math.random() * 20) + "px";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => { heart.remove(); }, 7000);
 }
+setInterval(createHeart, 500);
 
 </script>
+
 </body>
 </html>
